@@ -24,20 +24,16 @@ namespace 日曆
             pictureBoxes.Add(pictureBox5);
             pictureBoxes.Add(pictureBox6);
 
-            this.Controls.Add(pictureBox2);
-            pictureBox2.Hide();
+            foreach (var pictureBox in pictureBoxes)
+            {
+                pictureBox.Hide();
+            }
+
+            button1.Hide();
             button2.Hide();
-            this.Controls.Add(pictureBox3);
-            pictureBox3.Hide();
             button3.Hide();
-            this.Controls.Add(pictureBox4);
-            pictureBox4.Hide();
             button4.Hide();
-            this.Controls.Add(pictureBox5);
-            pictureBox5.Hide();
             button5.Hide();
-            this.Controls.Add(pictureBox6);
-            pictureBox6.Hide();
             button6.Hide();
         }
 
@@ -54,6 +50,7 @@ namespace 日曆
         }
 
         int totalphoto = 0;
+
         private void addbutton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -65,142 +62,85 @@ namespace 日曆
             {
                 // 獲取所選圖片的路徑
                 string selectedImagePath = openFileDialog.FileName;
-                PictureBox emptyPictureBox = null;
 
-                // 將所選圖片放入 PictureBox 中，並依次放入 PictureBox1, PictureBox2, PictureBox3, PictureBox4
-                if (pictureBox1.Image == null)
+                for (int i = 0; i < pictureBoxes.Count; i++)
                 {
-                    pictureBox1.Image = Image.FromFile(selectedImagePath);
-                    totalphoto++;
-                    pictureBox2.Show();
+                    if (pictureBoxes[i].Image == null)
+                    {
+                        pictureBoxes[i].Image = Image.FromFile(selectedImagePath);
+                        pictureBoxes[i].Show(); // 確保 PictureBox 顯示
+                        ShowDeleteButton(i); // 顯示對應的刪除按鈕
+                        totalphoto++;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void ShowDeleteButton(int index)
+        {
+            switch (index)
+            {
+                case 0:
                     button1.Show();
-                }
-                else if (pictureBox2.Image == null)
-                {
-                    pictureBox2.Image = Image.FromFile(selectedImagePath);
-                    totalphoto++;
-                    pictureBox3.Show();
+                    break;
+                case 1:
                     button2.Show();
-                }
-                else if (pictureBox3.Image == null)
-                {
-                    pictureBox3.Image = Image.FromFile(selectedImagePath);
-                    totalphoto++;
-                    pictureBox4.Show();
+                    break;
+                case 2:
                     button3.Show();
-                }
-                else if (pictureBox4.Image == null)
-                {
-                    pictureBox4.Image = Image.FromFile(selectedImagePath);
-                    totalphoto++;
-                    pictureBox5.Show();
+                    break;
+                case 3:
                     button4.Show();
-                }
-                else if (pictureBox5.Image == null)
-                {
-                    pictureBox5.Image = Image.FromFile(selectedImagePath);
-                    totalphoto++;
-                    pictureBox6.Show();
+                    break;
+                case 4:
                     button5.Show();
-                }
-                else if (pictureBox6.Image == null)
-                {
-                    totalphoto++;
-                    pictureBox6.Image = Image.FromFile(selectedImagePath);
+                    break;
+                case 5:
                     button6.Show();
-                }
-                else
-                {
-                    totalphoto++;
-                    emptyPictureBox.Image = Image.FromFile(selectedImagePath);
-                }
+                    break;
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("確定要移除照片嗎？", "移除照片", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                totalphoto--;
-                pictureBox1.Image = null;
-                pictureBox1.Image = pictureBox2.Image;
-                pictureBox2.Image = pictureBox3.Image;
-                pictureBox3.Image = pictureBox4.Image;
-                pictureBox4.Image = pictureBox5.Image;
-                pictureBox5.Image = pictureBox6.Image;
-                pictureBox6.Image = null;
-                UpdatePictureBoxVisibility();
-            }
+            RemovePhoto(0);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("確定要移除照片嗎？", "移除照片", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                totalphoto--;
-                pictureBox2.Image = null;
-                pictureBox2.Image = pictureBox3.Image;
-                pictureBox3.Image = pictureBox4.Image;
-                pictureBox4.Image = pictureBox5.Image;
-                pictureBox5.Image = pictureBox6.Image;
-                pictureBox6.Image = null;
-                UpdatePictureBoxVisibility();
-            }
+            RemovePhoto(1);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("確定要移除照片嗎？", "移除照片", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                totalphoto--;
-                pictureBox3.Image = null;
-                pictureBox3.Image = pictureBox4.Image;
-                pictureBox4.Image = pictureBox5.Image;
-                pictureBox5.Image = pictureBox6.Image;
-                pictureBox6.Image = null;
-                UpdatePictureBoxVisibility();
-            }
+            RemovePhoto(2);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("確定要移除照片嗎？", "移除照片", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                totalphoto--;
-                pictureBox4.Image = null;
-                pictureBox4.Image = pictureBox5.Image;
-                pictureBox5.Image = pictureBox6.Image;
-                pictureBox6.Image = null;
-                UpdatePictureBoxVisibility();
-            }
+            RemovePhoto(3);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("確定要移除照片嗎？", "移除照片", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                totalphoto--;
-                pictureBox5.Image = null;
-                pictureBox5.Image = pictureBox6.Image;
-                pictureBox6.Image = null;
-                UpdatePictureBoxVisibility();
-            }
+            RemovePhoto(4);
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("確定要移除照片嗎？", "移除照片", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+            RemovePhoto(5);
+        }
+
+        private void RemovePhoto(int index)
+        {
+            for (int i = index; i < pictureBoxes.Count - 1; i++)
             {
-                totalphoto--;
-                pictureBox6.Image = null;
-                UpdatePictureBoxVisibility();
+                pictureBoxes[i].Image = pictureBoxes[i + 1].Image;
             }
+            pictureBoxes[pictureBoxes.Count - 1].Image = null;
+            totalphoto--;
+            UpdatePictureBoxVisibility();
         }
 
         private void UpdatePictureBoxVisibility()
